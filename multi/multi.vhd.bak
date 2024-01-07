@@ -1,0 +1,48 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
+
+entity multi is
+	port(A: in std_logic_vector(7 downto 0);
+		 B: in std_logic_vector(7 downto 0);
+		 start: in std_logic;
+		 clk: in std_logic;
+		 Ans: out std_logic_vector(15 downto 0))
+end entity;
+
+architecture bhv of multi is
+	component sreg_8bit is
+		port(clk: in std_logic; 
+			 load: in std_logic; 
+			 din: in std_logic_vector(7 downto 0);
+			 qb: out std_logic);
+	end component;
+	component reg_16bit is
+		port(clk: in std_logic;
+			 clr: in std_logic;
+			 din: in std_logic_vector(8 downto 0);
+			 q: out std_logic_vector(15 downto 0)
+		);
+	end component;
+	component andarith is
+		port(abin: in std_logic;
+			 din: in std_logic_vector(7 downto 0);
+			 dout: out std_logic_vector(7 downto 0));
+	end component;
+	component adder_8bit is
+		port(a: in std_logic_vector(7 downto 0);
+			 b: in std_logic_vector(7 downto 0);
+			 ans: out std_logic_vector(8 downto 0));
+	end component;
+	signal elem: std_logic;
+	signal andAns: std_logic_vector(7 downto 0);
+	signal addAns: std_logic_vector(8 downto 0);
+	signal regBuffer: std_logic_vector(15 downto 0);
+begin
+	u1: sreg_8bit port map(clk=>clk, load=>start, din=>A, qb=>elem);
+	u2: andarith port map(abin=>elem, din=>B, dout=>andAns);
+	u3: adder_8bit port map(a=>andAns, b=>regBuffer(15 downto 8), ans=>addAns);
+	u4: reg_16bit port map(clk=>clk, clr=>start, din=>addAns, q=>regBuffer);
+	Ans <= regBuffer;
+end architecture;

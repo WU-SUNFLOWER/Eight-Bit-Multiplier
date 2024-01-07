@@ -1,0 +1,27 @@
+|sreg_8bit
+clk => data[0].CLK
+clk => data[1].CLK
+clk => data[2].CLK
+clk => data[3].CLK
+clk => data[4].CLK
+clk => data[5].CLK
+clk => data[6].CLK
+load => data[0].ALOAD
+load => data[1].ALOAD
+load => data[2].ALOAD
+load => data[3].ALOAD
+load => data[4].ALOAD
+load => data[5].ALOAD
+load => data[6].ALOAD
+load => data[7].LATCH_ENABLE
+din[0] => data[0].ADATA
+din[1] => data[1].ADATA
+din[2] => data[2].ADATA
+din[3] => data[3].ADATA
+din[4] => data[4].ADATA
+din[5] => data[5].ADATA
+din[6] => data[6].ADATA
+din[7] => data[7].DATAIN
+qb <= data[0].DB_MAX_OUTPUT_PORT_TYPE
+
+
